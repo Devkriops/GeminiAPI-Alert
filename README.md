@@ -22,7 +22,8 @@ Windows
     $ pip install aiohttp requests pylint
 
 
-#Usuage
+Usuage
+------------------
 
 python api_alerts.py -c btcusd -d 1
 
@@ -34,10 +35,13 @@ python api_alerts.py
 
 api_alerts
 
-#Next steps and Other interesting checks 
+Next steps and Other interesting checks 
+-----------------------------------------
+
 We can implement pub sub model by monitoring the values and make this script as a publisher for different events
 
-#Approach
+Approach
+-----------------
 
 1. using requests library fetched the ticker data for btcusd from https://api.gemini.com/v2/ticker/btcusd
 2. calculated average, standard deviation, price deviation from the fields close, changes in json response using statistics library
@@ -49,7 +53,8 @@ We can implement pub sub model by monitoring the values and make this script as 
 8. Synchronous programming is taking time to fetch data of each symbol. So, improved it by adding async tasks for each symbol using asyncio and aiohttp libraries
 9. Documentation
 
-#Time
+Time
+--------------------
 1 and half hour to understand
 30 mins for design
 1 hour for implementation
