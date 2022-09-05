@@ -1,0 +1,49 @@
+def get_nodes(role: str):
+    """
+
+    :param role:
+    :return:
+    """ 
+    base_url = "https://automate.triwest.com/api/v0/cfgmgmt/"   
+    api_token = "cXhxgJMxMWGnvM2Y-lv57K4nFfY="
+
+    url = base_url + f"nodes?pagination.page=1&pagination.size=150&sorting.field=name" \
+                     f"&sorting.order=ASC&filter=role:{role}"
+
+    headers = {
+        'api-token': api_token
+    }
+
+    payload = {}
+
+    response = requests.request("GET", url, verify=False, headers=headers, data=payload)
+
+    nodes=json.loads(response.text)
+
+    missing_nodes = [node for node in nodes if node['status'] == 'missing']
+    failed_nodes = [node for node in nodes if node['status'] == 'failed']
+    success_nodes = [node for node in nodes if node['status'] == 'success']
+
+    print("-------------------------------------")
+    [print(f"{node['name']} -> {node['status']}") for node in missing_nodes]
+
+    print("-------------------------------------")
+    [print(f"{node['name']} -> {node['status']}") for node in failed_nodes]
+
+    print("-------------------------------------")
+    [print(f"{node['name']} -> {node['status']}") for node in success_nodes]
+
+    print("-------------------------------------")
+    print(f"Total nodes --> {len(nodes)}")
+    print(f"Missing nodes --> {len(missing_nodes)}")
+    print(f"Failed nodes --> {len(failed_nodes)}")
+    print(f"Success nodes --> {len(success_nodes)}")
+
+    print("-------------------------------------")
+    if len(nodes) == len(success_nodes):
+        print("Ready to go")
+    else:
+        print("Re-verify the nodes")
+
+if __name__ == "__main__":
+    get_nodes(role="dev")
